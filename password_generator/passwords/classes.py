@@ -16,19 +16,28 @@ class PasswordData():
 
     @staticmethod
     def generate_password(complexity: Complexity, length: Length):
-        password = ''
+        try:
+            password = ''
 
-        for _ in range(length.value):
-            random_position = randint(0, len(complexity.value) - 1)
-            password += complexity.value[random_position]
+            for _ in range(length.value):
+                random_position = randint(0, len(complexity.value) - 1)
+                password += complexity.value[random_position]
 
-        return password
+            return password
+        except:
+            return 'Ha ocurrido un error intentalo mas tarde.'
     
     @staticmethod
     def hash_password(password: str):
-        return hashpw(password.encode(), gensalt()).decode()
+        try:
+            return hashpw(password.encode(), gensalt()).decode()
+        except:
+            return 'Ha ocurrido un error intentalo mas tarde.'
     
     @staticmethod
     def check_password(plain_password: str, hashed_passsword: str):
-        hashed_passsword = hashed_passsword.strip()
-        return checkpw(plain_password.encode(), hashed_passsword.encode())
+        try:
+            hashed_passsword = hashed_passsword.strip()
+            return checkpw(plain_password.encode(), hashed_passsword.encode())
+        except ValueError:
+            return False
