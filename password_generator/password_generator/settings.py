@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-)-6fgm+*gwrv71tvk%)r(bua02bw%(+o6!6og&=bvdz1dx-_xd
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'https://password-generator-5xa4.onrender.com/'
+    'https://password-generator-5xa4.onrender.com'
 ]
 
 
