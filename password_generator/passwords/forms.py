@@ -1,5 +1,5 @@
 from django import forms
-from .classes import Complexity
+from .services import Complexity
 
 class PasswordDataForm(forms.Form):
     complexity = forms.ChoiceField(

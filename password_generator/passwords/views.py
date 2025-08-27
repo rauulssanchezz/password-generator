@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import PasswordDataForm, HashPasswordForm, CheckPasswordForm
-from .classes import PasswordData, Complexity, Length
+from .services import PasswordService, Complexity, Length
 
 def index(request):
     password = ''
@@ -19,14 +19,14 @@ def index(request):
                 complexity = Complexity[password_data_form.cleaned_data['complexity']]
                 length = Length[password_data_form.cleaned_data['complexity']]
 
-                password = PasswordData.generate_password(complexity, length)
+                password = PasswordService.generate_password(complexity, length)
         
         elif 'hash_password' in request.POST:
             hash_password_form = HashPasswordForm(request.POST)
 
             if hash_password_form.is_valid():
                 password = hash_password_form.cleaned_data['password']
-                hashed_password = PasswordData.hash_password(password)
+                hashed_password = PasswordService.hash_password(password)
 
         elif 'check_password' in request.POST:
             check_password_form = CheckPasswordForm(request.POST)
@@ -35,7 +35,7 @@ def index(request):
                 plain_password = check_password_form.cleaned_data['plain_password']
                 hashed_password_to_check = check_password_form.cleaned_data['hashed_password']
 
-                if PasswordData.check_password(plain_password, hashed_password_to_check):
+                if PasswordService.check_password(plain_password, hashed_password_to_check):
                     check_message = 'Las contraseñas coinciden.'
                 else:
                     check_message = 'Las contraseñas no coinciden.'

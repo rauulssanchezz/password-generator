@@ -12,7 +12,7 @@ class Complexity(Enum):
     medium = 'abcdefghijklmnñopqrstuvwxyz1234567890'
     hard = 'abcdefghijklmnñopqrstuvwxyz1234567890,.<>-´¨+*`¿?¡=!&%()/$·|@#~'
 
-class PasswordData():
+class PasswordService():
 
     @staticmethod
     def generate_password(complexity: Complexity, length: Length):
@@ -41,3 +41,5 @@ class PasswordData():
             return checkpw(plain_password.encode(), hashed_passsword.encode())
         except ValueError:
             return False
+        except:
+            return 'Ha ocurrido un error intentalo mas tarde.'
