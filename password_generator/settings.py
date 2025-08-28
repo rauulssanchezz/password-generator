@@ -16,7 +16,8 @@ SECRET_KEY = 'django-insecure-)-6fgm+*gwrv71tvk%)r(bua02bw%(+o6!6og&=bvdz1dx-_xd
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'password-generator-5xa4.onrender.com'
+    'password-generator-5xa4.onrender.com',
+    '127.0.0.1'
 ]
 
 
@@ -24,6 +25,7 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'passwords',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.contenttypes',
@@ -32,8 +34,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -49,7 +52,9 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -91,3 +96,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = '/'
