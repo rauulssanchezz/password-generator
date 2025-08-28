@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)-6fgm+*gwrv71tvk%)r(bua02bw%(+o6!6og&=bvdz1dx-_xd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'password-generator-5xa4.onrender.com'
@@ -63,6 +63,13 @@ TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 USE_TZ = True
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    }
+}
 
 
 # Static files (CSS, JavaScript, Images)
