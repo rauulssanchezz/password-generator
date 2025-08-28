@@ -1,15 +1,24 @@
-from django.shortcuts import render
-from .forms import PasswordDataForm, HashPasswordForm, CheckPasswordForm
+from django.shortcuts import render, redirect
+from .forms import PasswordDataForm, HashPasswordForm, CheckPasswordForm, SavePasswordForm
 from .services import PasswordService, Complexity, Length
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from django.http import HttpRequest
+from .models import GeneratedPassword
 
-def index(request):
+def index(request: HttpRequest):
     password = ''
     hashed_password = ''
     check_message = ''
+    user_logged = False
 
     password_data_form = PasswordDataForm()
     hash_password_form = HashPasswordForm()
     check_password_form = CheckPasswordForm()
+
+    if request.user.is_authenticated:
+        user_logged = True
 
     if request.method == 'POST':
         if 'generate_password' in request.POST:
@@ -40,6 +49,12 @@ def index(request):
                 else:
                     check_message = 'Las contraseñas no coinciden.'
 
+        elif 'save_password' in request.POST:
+            print(f'valor de password: {password}')
+            request.session['password'] = request.POST.get('password')
+            print(f'valor de password en sesion: {request.session.get('password')}')
+            return redirect('save-password')
+
     return render(
         request, 'passwords/password_form.html', 
         {
@@ -48,7 +63,38 @@ def index(request):
             'checkPasswordForm': check_password_form,
             'password': password,
             'hashedPassword': hashed_password,
-            'checkMessage': check_message
+            'checkMessage': check_message,
+            'user_logged': user_logged
         }
     )
 
+def signup(request: HttpRequest):
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    
+    return render(request, 'registration/signup.html', {'form': form})
+
+@login_required
+def save_password(request: HttpRequest):
+    password = request.session.get('password', '')
+
+    if request.method == 'POST':
+        form = SavePasswordForm(request.POST)
+
+        GeneratedPassword.objects.create(
+            user = request.user,
+            password_name = request.POST.get('password_name'),
+            password = request.POST.get('password')
+        )
+
+        messages.success(request, '¡Contraseña guardada con éxito!')
+
+    else:
+        form = SavePasswordForm(initial={'password': password})
+
+    return render(request, 'passwords/save-password.html', {'form': form})
