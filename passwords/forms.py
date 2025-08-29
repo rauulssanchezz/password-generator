@@ -15,3 +15,7 @@ class HashPasswordForm(forms.Form):
 class CheckPasswordForm(forms.Form):
     plain_password = forms.CharField(label='Contraseña sin hashear:')
     hashed_password = forms.CharField(label='Contraseña hasheada:')
+
+class SavePasswordForm(forms.Form):
+    password_name = forms.CharField(label='Nombre para la contraseña:')
+    password = forms.CharField(label='Contraseña:')
