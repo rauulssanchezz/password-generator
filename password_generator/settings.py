@@ -13,7 +13,7 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = 'django-insecure-)-6fgm+*gwrv71tvk%)r(bua02bw%(+o6!6og&=bvdz1dx-_xd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'password-generator-5xa4.onrender.com',
