@@ -98,3 +98,8 @@ def save_password(request: HttpRequest):
         form = SavePasswordForm(initial={'password': password})
 
     return render(request, 'passwords/save-password.html', {'form': form})
+
+@login_required
+def show_saved_passwords(request: HttpRequest):
+    passwords = GeneratedPassword.objects.filter(user=request.user)
+    return render(request, 'passwords/show_saved_passwords.html', {'passwords': passwords})
